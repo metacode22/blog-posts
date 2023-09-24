@@ -39,24 +39,41 @@ React도 이러한 개념에 맞추어 설계되었다. React는 우리가 작�
 
 순수성을 깨는 예시를 살펴보자.
 
-```diff-[tsx] {1, 3-4} showLineNumbers
-let guest = 0;
+```tsx diff {1, 3-4} showLineNumbers
+'use client';
 
-function Cup() {
-  // Bad: changing a preexisting variable!
-  guest = guest + 1;
-  return <h2>Tea cup for guest #{guest}</h2>;
-}
+import Link from 'next/link';
+import { useEffect } from 'react';
 
-export default function TeaSet() {
+export default function Error({
+  error,
+  reset,
+}: {
+  error: Error;
+  reset: () => void;
+}) {
+  + useEffect(() => {
+    + console.error(error);
+  + }, [error]);
+
   return (
-    <>
-      + <Cup />
-      + <Cup />
-      - <Cup />
-    </>
+    <main className='mx-auto min-h-screen max-w-lg bg-slate-200 px-4 py-1'>
+      <h2 className='my-4 text-2xl font-bold'>Something went wrong!</h2>
+      <button
+        className='mb-4 rounded-xl bg-red-500 p-4 text-white'
+        onClick={() => reset()}>
+        Try again
+      </button>
+      <p>
+        Or go back to{' '}
+        <Link href='/' className='underline'>
+          Home
+        </Link>
+      </p>
+    </main>
   );
 }
+
 ```
 
 위와 같이 하면 TeaSet을 렌더링할 때마다 guest는 증가하니 우리가 원하는 것을 제대로 화면에 나타낼 수 없다. 특히나 Strict Mode를 켜놓았다면 2번 렌더링 되니 2, 4, 6으로 보일 것이다.
