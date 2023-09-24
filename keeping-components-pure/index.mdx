@@ -39,7 +39,7 @@ React도 이러한 개념에 맞추어 설계되었다. React는 우리가 작�
 
 순수성을 깨는 예시를 살펴보자.
 
-```tsx {1, 3-4} showLineNumbers
+```tsx {1, 3-4} showLineNumbers diff
 let guest = 0;
 
 function Cup() {
@@ -51,9 +51,9 @@ function Cup() {
 export default function TeaSet() {
   return (
     <>
-      (+) <Cup />
-      (+) <Cup />
-      (-) <Cup />
+      + <Cup />
+      + <Cup />
+      - <Cup />
     </>
   );
 }
