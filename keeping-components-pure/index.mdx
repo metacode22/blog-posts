@@ -25,7 +25,7 @@ categories: ["React"]
 
 다음 예시를 보자.
 
-```
+```tsx
 function double(number) {
   return 2 * number;
 }
@@ -39,7 +39,7 @@ React도 이러한 개념에 맞추어 설계되었다. React는 우리가 작�
 
 순수성을 깨는 예시를 살펴보자.
 
-```diff {1, 3-4} showLineNumbers
+```tsx diff {1, 3-4} showLineNumbers
 'use client';
 
 import Link from 'next/link';
@@ -52,9 +52,9 @@ export default function Error({
   error: Error;
   reset: () => void;
 }) {
-  + useEffect(() => {
-    + console.error(error);
-  + }, [error]);
+  useEffect(() => {
+    console.error(error);
+  }, [error]);
 
   return (
     <main className='mx-auto min-h-screen max-w-lg bg-slate-200 px-4 py-1'>
@@ -80,7 +80,7 @@ export default function Error({
 
 순수성을 지키면서 올바르게 렌더링하고 싶다면 다음과 같이 guest를 Cup에게 prop으로 전달해야 한다.
 
-```
+```tsx
 function Cup({ guest }) {
   return <h2>Tea cup for guest #{guest}</h2>;
 }
@@ -106,7 +106,7 @@ export default function TeaSet() {
 
 하지만 컴포넌트가 호출되는 동안 컴포넌트 내부의, 즉 컴포넌트가 생성해낸 변수를 조작하는 건 완벽히 괜찮은 행동이다. 다음 예시를 보자.
 
-```
+```tsx
 function Cup({ guest }) {
   return <h2>Tea cup for guest #{guest}</h2>;
 }
@@ -130,7 +130,7 @@ export default function TeaGathering() {
 
 React에서 사이드 이펙트는 이벤트 핸들러에 속해 있다. 여기서 말하는 이벤트 핸들러는 사용자가 버튼을 클릭하는 등의 동작을 했을 때 React가 실행시키는 함수이다. **이벤트 핸들러가 컴포넌트 내부에서 선언되어 있더라도 렌더링, 즉 컴포넌트가 호출되는 동안에는 실행되지 않는다. 즉 컴포넌트는 동일한 JSX문을 반환하기에 이벤트 핸들러는 순수성을 지킬 필요가 없다.** React는 동일한 입력값이 주어졌을 때 동일한 JSX문을 반환한다는 순수성을 지키면 되기 때문이다.
 
-```
+```tsx
 <button onClick={handleClick}>클릭 버튼</button> // handleClick이 이벤트 핸들러
 ```
 
